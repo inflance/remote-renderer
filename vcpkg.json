@@ -1,0 +1,41 @@
+{
+    "name": "remote-renderer",
+    "version-semver": "1.0.0",
+    "dependencies": [
+        {
+            "name": "spdlog",
+            "version>=": "1.9.0"
+        }, {
+            "name": "glfw3",
+            "version>=": "3.3.7"
+        }, {
+            "name": "imgui",
+            "version>=": "1.89.7"
+        },
+        {
+            "name": "nlohmann-json",
+            "version>=": "3.10.5"
+        }
+    ],
+    "builtin-baseline":"64ca152891d6ab135c6c27881e7eb0ac2fa15bba",
+    "overrides": [
+        {
+            "name": "spdlog",
+            "version-string": "1.12.0",
+            "port-version": 0
+        },{
+            "name": "glfw3",
+            "version-string": "3.3.7",
+            "port-version": 0
+        },{
+            "name": "imgui",
+            "version-string": "1.89.7",
+            "port-version": 0
+        },
+        {
+            "name": "nlohmann-json",
+            "version-string": "3.10.5",
+            "port-version": 0
+        }
+    ]
+}
