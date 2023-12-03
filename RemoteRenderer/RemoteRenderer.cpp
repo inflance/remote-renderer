@@ -2,6 +2,7 @@
 #include "RemoteRenderer.h"
 
 #include "Application/Application.h"
+#include "Application/ImguiLayer.h"
 #include "Application/Log.h"
 
 using namespace std;

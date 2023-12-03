@@ -10,6 +10,12 @@ find_package(imgui REQUIRED)
 
 find_package(glfw3 REQUIRED)
 
+find_package(OpenGL REQUIRED)
+
+ find_package(glm CONFIG REQUIRED)
+
+ find_package(glad CONFIG REQUIRED)
+
 file(GLOB_RECURSE  CPP_HEADER_FILES "./*.h" "./*.hpp")
 file(GLOB_RECURSE  CPP_SOURCE_FILES "./*.cpp" "./*.cc")
 foreach(FILE ${CPP_HEADER_FILES})
@@ -27,5 +33,5 @@ foreach(FILE ${CPP_SOURCE_FILES})
 endforeach()
 add_executable (RemoteRenderer ${CPP_SOURCE_FILES} ${CPP_HEADER_FILES} )
 
-target_link_libraries(RemoteRenderer PRIVATE imgui::imgui glfw nlohmann_json::nlohmann_json  spdlog::spdlog)
+target_link_libraries(RemoteRenderer PRIVATE imgui::imgui glfw nlohmann_json::nlohmann_json  spdlog::spdlog OpenGL::GL glm::glm glad::glad)
 target_include_directories(RemoteRenderer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

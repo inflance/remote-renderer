@@ -10,12 +10,20 @@
             "version>=": "3.3.7"
         }, {
             "name": "imgui",
-            "version>=": "1.89.7"
-        },
+            "version>=": "1.89.7",
+            "features": [
+              "opengl3-binding", 
+              "glfw-binding"
+            ] 
+          },
+        "opengl"
+        ,
         {
             "name": "nlohmann-json",
             "version>=": "3.10.5"
-        }
+        }, 
+        "glad",
+        "glm"
     ],
     "builtin-baseline":"64ca152891d6ab135c6c27881e7eb0ac2fa15bba",
     "overrides": [
@@ -29,7 +37,7 @@
             "port-version": 0
         },{
             "name": "imgui",
-            "version-string": "1.89.7",
+            "version-string": "1.90",
             "port-version": 0
         },
         {

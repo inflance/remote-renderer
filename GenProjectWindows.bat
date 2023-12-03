@@ -1,2 +1,2 @@
-Cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake
+Cmake -S . -B build
 pause

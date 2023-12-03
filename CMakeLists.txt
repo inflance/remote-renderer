@@ -1,5 +1,6 @@
-﻿
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
+
+set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 
 # 如果支持，请为 MSVC 编译器启用热重载。
 if (POLICY CMP0141)
