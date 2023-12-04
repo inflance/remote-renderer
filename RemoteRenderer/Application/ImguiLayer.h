@@ -18,7 +18,7 @@ public:
 	void Update(float delta_time) override;
 	bool Event() override;
 
-private:
+protected:
 	Window* m_window = nullptr;
 	bool show_demo_window = true;
 };

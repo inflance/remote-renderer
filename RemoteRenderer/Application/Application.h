@@ -19,6 +19,8 @@ public:
 	void AddTopLayer(Layer* layer);
 	void AddButtonLayer(Layer* layer);
 
+	[[nodiscard]] Window* GetWindow() const { return m_window.get(); }
+
 private:
 	std::unique_ptr<Window> m_window = nullptr;
 	std::unique_ptr<OpenGLContext> m_gl_context = nullptr;

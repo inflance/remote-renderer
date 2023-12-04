@@ -16,8 +16,17 @@ ImguiLayer::~ImguiLayer()
 void ImguiLayer::Init()
 {
 	IMGUI_CHECKVERSION();
-	Log::Instance().Info("ImGui version: {} ",ImGui::GetVersion());
+	Log::Instance().Info("ImGui version: {} ", ImGui::GetVersion());
 	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; 
+	float x_scale, y_scale;
+	m_window->WindowScale(x_scale, y_scale);
+	io.DisplayFramebufferScale = ImVec2(x_scale, y_scale);
+	io.FontGlobalScale = (x_scale + y_scale) / 2;
+
 	ImGui_ImplGlfw_InitForOpenGL(m_window->Get(), true);
 	ImGui_ImplOpenGL3_Init("#version 330 core");
 }

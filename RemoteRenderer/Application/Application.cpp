@@ -10,17 +10,10 @@ void Application::Init()
 
 	m_window->Init();
 
-	RenderData render_data{ {}, 0 , 0, m_window->Width(), m_window->Height() };
+	RenderData render_data{{}, 0, 0, m_window->Width(), m_window->Height()};
 	m_gl_context = std::make_unique<OpenGLContext>(render_data);
 
 	m_gl_context->Init();
-
-	AddTopLayer(new ImguiLayer(m_window.get()));
-
-	for (Layer* layer : m_layer_stack)
-	{
-		layer->Init();
-	}
 }
 
 void Application::Shutdown()
@@ -56,7 +49,7 @@ void Application::Run()
 			m_window->FrameBufferSize(width, height);
 			m_gl_context->Resize(0, 0, width, height);
 		}
-		
+
 		m_window->Update();
 	}
 }
@@ -64,14 +57,17 @@ void Application::Run()
 void Application::AddLayer(Layer* layer)
 {
 	m_layer_stack.push_back(layer);
+	layer->Init();
 }
 
 void Application::AddTopLayer(Layer* layer)
 {
 	m_layer_stack.push_front(layer);
+	layer->Init();
 }
 
 void Application::AddButtonLayer(Layer* layer)
 {
 	m_layer_stack.push_back(layer);
+	layer->Init();
 }

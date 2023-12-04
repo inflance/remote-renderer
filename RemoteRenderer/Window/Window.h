@@ -17,6 +17,7 @@ public:
 	void Init();
 	static void Destroy();
 
+	void Close() const;
 	[[nodiscard]] int Width() const { return m_info.width; }
 	[[nodiscard]] int Height() const { return m_info.height; }
 
@@ -29,6 +30,7 @@ public:
 	[[nodiscard]] GLFWwindow* Get() const { return m_window; }
 
 	void FrameBufferSize(int& width, int& height) const;
+	void WindowScale(float& width_scale, float& height_scale) const;
 
 private:
 	WindowInfo m_info{};

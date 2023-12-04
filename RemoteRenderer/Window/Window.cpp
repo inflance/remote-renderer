@@ -36,6 +36,11 @@ void Window::Destroy()
 	glfwTerminate();
 }
 
+void Window::Close() const
+{
+	glfwSetWindowShouldClose(m_window, true);
+}
+
 void Window::PollEvents()
 {
 	glfwPollEvents();
@@ -54,4 +59,9 @@ bool Window::ShouldClose() const
 void Window::FrameBufferSize(int& width, int& height) const
 {
 	glfwGetFramebufferSize(m_window, &width, &height);
+}
+
+void Window::WindowScale(float& width_scale, float& height_scale) const
+{
+	glfwGetWindowContentScale(m_window, &width_scale, &height_scale);
 }
