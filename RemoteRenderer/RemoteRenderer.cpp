@@ -1,7 +1,7 @@
 ﻿
 #include "RemoteRenderer.h"
 
-#include "../build/RemoteRenderer/RemoteRendererGui.h"
+#include "RemoteRendererGui.h"
 #include "Application/Application.h"
 #include "Application/ImguiLayer.h"
 #include "Application/Log.h"
