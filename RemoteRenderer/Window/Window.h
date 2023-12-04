@@ -18,6 +18,7 @@ public:
 	static void Destroy();
 
 	void Close() const;
+	static void SetVSync(int i);
 	[[nodiscard]] int Width() const { return m_info.width; }
 	[[nodiscard]] int Height() const { return m_info.height; }
 

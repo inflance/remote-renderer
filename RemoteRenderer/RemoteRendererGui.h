@@ -11,6 +11,9 @@ public:
 	void Shutdown() override;
 	void Update(float delta_time) override;
 	bool Event() override;
+	void ShowMenuBar();
+	static void ShowFpsWindow();
 	void HandelPause();
 	void HandelExit() const;
+	static void HandelVSync();
 };

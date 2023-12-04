@@ -41,6 +41,11 @@ void Window::Close() const
 	glfwSetWindowShouldClose(m_window, true);
 }
 
+void Window::SetVSync(int i)
+{
+	glfwSwapInterval(i);
+}
+
 void Window::PollEvents()
 {
 	glfwPollEvents();
