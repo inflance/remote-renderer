@@ -20,6 +20,7 @@ public:
 	void AddButtonLayer(Layer* layer);
 
 	[[nodiscard]] Window* GetWindow() const { return m_window.get(); }
+	void OnEvent(const Event& event);
 
 private:
 	std::unique_ptr<Window> m_window = nullptr;

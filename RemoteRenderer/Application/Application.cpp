@@ -2,6 +2,7 @@
 
 #include "ImguiLayer.h"
 #include "Layer.h"
+#include "Log.h"
 
 void Application::Init()
 {
@@ -10,10 +11,14 @@ void Application::Init()
 
 	m_window->Init();
 
+	m_window->SetEventCallback(std::bind(&Application::OnEvent,this, std::placeholders::_1));
+
 	RenderData render_data{{}, 0, 0, m_window->Width(), m_window->Height()};
 	m_gl_context = std::make_unique<OpenGLContext>(render_data);
 
 	m_gl_context->Init();
+
+
 }
 
 void Application::Shutdown()
@@ -70,4 +75,9 @@ void Application::AddButtonLayer(Layer* layer)
 {
 	m_layer_stack.push_back(layer);
 	layer->Init();
+}
+
+void Application::OnEvent(const Event& event)
+{
+	Log::Instance().Info(event.GetType());
 }

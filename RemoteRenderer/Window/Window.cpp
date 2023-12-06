@@ -1,6 +1,9 @@
 #include "Window.h"
 
+#include <memory>
+
 #include "../Application/Log.h"
+#include "Application/EventDispatcher.h"
 
 Window::Window(WindowInfo window_info)
 	: m_info(std::move(window_info))
@@ -29,11 +32,40 @@ void Window::Init()
 	}
 
 	glfwMakeContextCurrent(m_window);
+
+	m_handle_thread = std::thread([this]() { m_dispatcher.ProcessEvents(); });
+	m_handle_thread.detach();
 }
 
 void Window::Destroy()
 {
 	glfwTerminate();
+}
+
+void Window::SetEventCallback(Callback&& callback)
+{
+	glfwSetWindowUserPointer(m_window, this);
+	m_dispatcher.AddEventListener(callback);
+
+	glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window)
+	{
+		auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+		if (data != nullptr)
+		{
+			data->GetDispatcher().EnqueueEvent(std::make_shared<WindowClosedEvent>());
+		}
+	});
+
+	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height)
+	{
+		auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+		if (data != nullptr)
+		{
+			data->GetDispatcher().EnqueueEvent(std::make_shared<WindowResizedEvent>(width, height));
+		}
+	});
 }
 
 void Window::Close() const

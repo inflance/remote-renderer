@@ -3,6 +3,8 @@
 #include <string>
 #include <GLFW/glfw3.h>
 
+#include "Application/EventDispatcher.h"
+
 struct WindowInfo
 {
 	std::string title{};
@@ -12,11 +14,14 @@ struct WindowInfo
 class Window
 {
 public:
+	using Callback = std::function<void(const Event&)>;
+
 	explicit Window(WindowInfo window_info);
 
 	void Init();
 	static void Destroy();
 
+	void SetEventCallback(Callback&& callback) ;
 	void Close() const;
 	static void SetVSync(int i);
 	[[nodiscard]] int Width() const { return m_info.width; }
@@ -33,7 +38,11 @@ public:
 	void FrameBufferSize(int& width, int& height) const;
 	void WindowScale(float& width_scale, float& height_scale) const;
 
+	EventDispatcher& GetDispatcher() { return m_dispatcher; }
+
 private:
 	WindowInfo m_info{};
+	EventDispatcher m_dispatcher{};
 	GLFWwindow* m_window = nullptr;
+	std::thread m_handle_thread;
 };
