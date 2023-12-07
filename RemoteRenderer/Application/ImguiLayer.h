@@ -7,7 +7,7 @@ class Window;
 class ImguiLayer : public Layer
 {
 public:
-	explicit ImguiLayer(Window* window);
+	ImguiLayer();
 
 	~ImguiLayer() override;
 
@@ -16,9 +16,7 @@ public:
 	static void Begin();
 	static void End();
 	void Update(float delta_time) override;
-	bool Event() override;
-
+	void OnEvent(const Event* event) override;
 protected:
-	Window* m_window = nullptr;
 	bool show_demo_window = true;
 };

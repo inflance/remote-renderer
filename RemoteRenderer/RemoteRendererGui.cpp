@@ -2,10 +2,11 @@
 
 #include <imgui.h>
 
+#include "Application/Application.h"
 #include "Application/Log.h"
 #include "Window/Window.h"
 
-RemoteRendererGui::RemoteRendererGui(Window* window): ImguiLayer(window)
+RemoteRendererGui::RemoteRendererGui(): ImguiLayer()
 {
 }
 
@@ -37,11 +38,6 @@ void RemoteRendererGui::Update(float delta_time)
 		ImGui::End();
 	}
 	End();
-}
-
-bool RemoteRendererGui::Event()
-{
-	return ImguiLayer::Event();
 }
 
 void RemoteRendererGui::ShowMenuBar()
@@ -90,10 +86,10 @@ void RemoteRendererGui::HandelPause()
 {
 }
 
-void RemoteRendererGui::HandelExit() const
+void RemoteRendererGui::HandelExit()
 {
 	Log::Instance().Info("Exit Remote Renderer app.");
-	m_window->Close();
+	Application::Instance().GetWindow()->Close();
 }
 
 void RemoteRendererGui::HandelVSync()

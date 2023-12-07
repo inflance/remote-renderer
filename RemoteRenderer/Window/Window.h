@@ -14,7 +14,7 @@ struct WindowInfo
 class Window
 {
 public:
-	using Callback = std::function<void(const Event&)>;
+	using Callback = std::function<void(const Event*)>;
 
 	explicit Window(WindowInfo window_info);
 
@@ -22,7 +22,7 @@ public:
 	static void Destroy();
 
 	void SetEventCallback(Callback&& callback) ;
-	void Close() const;
+	void Close() ;
 	static void SetVSync(int i);
 	[[nodiscard]] int Width() const { return m_info.width; }
 	[[nodiscard]] int Height() const { return m_info.height; }

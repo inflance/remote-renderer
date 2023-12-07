@@ -12,7 +12,7 @@ int main()
 {
     Log::Instance().Init();
     Application::Instance().Init();
-    Application::Instance().AddTopLayer(new RemoteRendererGui(Application::Instance().GetWindow()));
+    Application::Instance().AddTopLayer(new RemoteRendererGui());
     Application::Instance().Run();
     Application::Instance().Shutdown();
     Log::Instance().Shutdown();

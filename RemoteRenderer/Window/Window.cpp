@@ -66,11 +66,75 @@ void Window::SetEventCallback(Callback&& callback)
 			data->GetDispatcher().EnqueueEvent(std::make_shared<WindowResizedEvent>(width, height));
 		}
 	});
+
+	glfwSetWindowContentScaleCallback(m_window, [](GLFWwindow* window, float x_scale, float y_scale)
+	{
+		auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+		if (data != nullptr)
+		{
+			data->GetDispatcher().EnqueueEvent(std::make_shared<WindowScaledEvent>(x_scale, y_scale));
+		}
+	});
+
+	glfwSetWindowFocusCallback(m_window, [](GLFWwindow* window, int focused)
+	{
+		auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+		if (data != nullptr)
+		{
+			data->GetDispatcher().EnqueueEvent(std::make_shared<WindowFocusedEvent>(focused));
+		}
+	});
+
+	glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods)
+	{
+		auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+		if (data != nullptr)
+		{
+			if (action == GLFW_PRESS)
+			{
+				data->GetDispatcher().EnqueueEvent(std::make_shared<MouseButtonPressedEvent>(button, mods));
+			}
+			else if (action == GLFW_RELEASE)
+			{
+				data->GetDispatcher().EnqueueEvent(std::make_shared<MouseButtonReleasedEvent>(button, mods));
+			}
+		}
+	});
+
+	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos)
+	{
+		auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+		if (data != nullptr)
+		{
+			data->GetDispatcher().EnqueueEvent(std::make_shared<MouseMovedEvent>(xpos, ypos));
+		}
+	});
+
+	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scan_code, int action, int mods)
+	{
+		auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+		if (data != nullptr)
+		{
+			if (action == GLFW_PRESS)
+			{
+				data->GetDispatcher().EnqueueEvent(std::make_shared<KeyPressedEvent>(key, mods));
+			}
+			else if (action == GLFW_RELEASE)
+			{
+				data->GetDispatcher().EnqueueEvent(std::make_shared<MouseButtonReleasedEvent>(key, mods));
+			}
+		}
+	});
 }
 
-void Window::Close() const
+void Window::Close() 
 {
-	glfwSetWindowShouldClose(m_window, true);
+	GetDispatcher().EnqueueEvent(std::make_shared<WindowClosedEvent>());
 }
 
 void Window::SetVSync(int i)

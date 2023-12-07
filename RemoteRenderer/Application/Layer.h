@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "Event.h"
+
 class Layer
 {
 public:
@@ -12,7 +14,7 @@ public:
 	virtual void Shutdown(){}
 	virtual void Update(float delta_time) {}
 
-	virtual bool Event() { return true; }
+	virtual void OnEvent(const ::Event* event){};
 
 private:
 	std::string m_name{};

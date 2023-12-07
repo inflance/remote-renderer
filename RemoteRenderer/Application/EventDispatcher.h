@@ -11,7 +11,7 @@
 class EventDispatcher
 {
 public:
-	using EventCallback = std::function<void(const Event&)>;
+	using EventCallback = std::function<void(const Event*)>;
 
 	EventDispatcher() = default;
 	~EventDispatcher() = default;
@@ -40,7 +40,7 @@ public:
 			m_event_queue.pop();
 			lock.unlock();
 
-			DispatchEvent(*event);
+			DispatchEvent(event.get());
 		}
 	}
 
@@ -50,7 +50,7 @@ private:
 	std::vector<EventCallback> m_event_callbacks;
 	std::queue<std::shared_ptr<Event>> m_event_queue;
 
-	void DispatchEvent(const Event& event)
+	void DispatchEvent(const Event* event)
 	{
 		for (auto& callback : m_event_callbacks)
 		{

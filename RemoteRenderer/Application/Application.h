@@ -20,10 +20,14 @@ public:
 	void AddButtonLayer(Layer* layer);
 
 	[[nodiscard]] Window* GetWindow() const { return m_window.get(); }
-	void OnEvent(const Event& event);
+	void OnEvent(const Event* event);
+	void OnWindowEvent(const WindowEvent* event);
+	void OnWindowResizedEvent(const WindowResizedEvent* event);
+	void OnWindowClosedEvent(const WindowClosedEvent* event);
 
 private:
 	std::unique_ptr<Window> m_window = nullptr;
 	std::unique_ptr<OpenGLContext> m_gl_context = nullptr;
 	std::deque<Layer*> m_layer_stack;
+	bool m_close = false;
 };
