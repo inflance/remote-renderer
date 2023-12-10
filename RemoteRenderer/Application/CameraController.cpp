@@ -19,3 +19,8 @@ void CameraController::SetCameraRotation(const glm::quat& rotation)
 {
 	m_camera->SetRotation(rotation);
 }
+
+Camera* CameraController::GetCamera() const
+{
+	return m_camera.get();
+}

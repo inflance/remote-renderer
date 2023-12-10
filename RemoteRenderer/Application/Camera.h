@@ -46,8 +46,8 @@ protected:
 	glm::mat4 m_view_mat{};
 	glm::mat4 m_proj_mat{};
 
-	glm::vec3 m_position{0.0f, 0.0f, 0.0f};
-	glm::quat m_rotation{1.0f, 0.0f, 0.0f, 0.0f};
+	glm::vec3 m_position{};
+	glm::quat m_rotation{};
 
 	Type m_type = Type::None;
 };

@@ -35,16 +35,27 @@ void Application::Shutdown()
 
 void Application::Run()
 {
+	using namespace std::chrono;
+
+	m_last_frame_time = high_resolution_clock::now();
+
 	while (!m_close)
 	{
 		m_window->PollEvents();
 
+		auto current_frame_time = high_resolution_clock::now();
+		auto duration = duration_cast<milliseconds>(current_frame_time - m_last_frame_time);
+		const float delta_time = duration.count() / 1000.0f; // Convert to seconds
+
+		m_last_frame_time = current_frame_time;
+
 		m_gl_context->Update();
+
 		for (Layer* layer : m_layer_stack)
 		{
-			constexpr float delta_time{};
 			layer->Update(delta_time);
 		}
+
 		m_window->Update();
 	}
 }

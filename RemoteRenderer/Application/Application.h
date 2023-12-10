@@ -41,4 +41,5 @@ private:
 	std::unique_ptr<OpenGLContext> m_gl_context = nullptr;
 	std::deque<Layer*> m_layer_stack;
 	bool m_close = false;
+	std::chrono::time_point<std::chrono::high_resolution_clock> m_last_frame_time;
 };

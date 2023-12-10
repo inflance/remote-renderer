@@ -42,8 +42,15 @@ void RemoteRendererGui::Update(float delta_time)
 	ShowFpsWindow();
 
 	{
+		const auto& view = m_camera_controller->GetCamera()->getViewMatrix();
 		ImGui::Begin("CameraMatrix");
-
+		{
+			ImGui::Text("View");
+			for (int i = 0; i < 4; ++i)
+			{
+				ImGui::Text("%f, %f, %f, %f", view[i][0], view[i][1], view[i][2], view[i][3]);
+			}
+		}
 		ImGui::End();
 	}
 	End();
