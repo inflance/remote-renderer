@@ -1,13 +1,21 @@
 ﻿#include "RemoteRendererGui.h"
 
 #include <imgui.h>
+#include <memory>
 
 #include "Application/Application.h"
+#include "Application/CameraController.h"
 #include "Application/Log.h"
+#include "Application/MousePanCameraController.h"
 #include "Window/Window.h"
 
 RemoteRendererGui::RemoteRendererGui(): ImguiLayer()
 {
+	const auto height = Application::Instance().GetWindow()->Height();
+	const auto width = Application::Instance().GetWindow()->Width();
+	m_camera_controller = std::make_shared<MousePanCameraController>(
+		Camera::CreateByPerspective(30.0, static_cast<float>(width) / static_cast<float>(height), 0.001f, 1000.0f));
+	m_camera_controller->SetCameraPosition(glm::vec3(0, 0, 1));
 }
 
 RemoteRendererGui::~RemoteRendererGui()
@@ -26,6 +34,7 @@ void RemoteRendererGui::Shutdown()
 
 void RemoteRendererGui::Update(float delta_time)
 {
+	m_camera_controller->Update(delta_time);
 	Begin();
 
 	ShowMenuBar();
@@ -95,4 +104,54 @@ void RemoteRendererGui::HandelExit()
 void RemoteRendererGui::HandelVSync()
 {
 	Window::SetVSync(1);
+}
+
+void RemoteRendererGui::OnKeyReleasedEvent(const KeyReleasedEvent* event)
+{
+	Layer::OnKeyReleasedEvent(event);
+}
+
+void RemoteRendererGui::OnKeyPressedEvent(const KeyPressedEvent* event)
+{
+	Layer::OnKeyPressedEvent(event);
+}
+
+void RemoteRendererGui::OnAppClosedEvent(const AppLaunchedEvent* event)
+{
+	Layer::OnAppClosedEvent(event);
+}
+
+void RemoteRendererGui::OnAppLaunchedEvent(const AppLaunchedEvent* event)
+{
+	Layer::OnAppLaunchedEvent(event);
+}
+
+void RemoteRendererGui::OnMouseScrolledEvent(const MouseScrolledEvent* event)
+{
+	Layer::OnMouseScrolledEvent(event);
+}
+
+void RemoteRendererGui::OnMouseButtonReleasedEvent(const MouseButtonReleasedEvent* event)
+{
+	Layer::OnMouseButtonReleasedEvent(event);
+}
+
+void RemoteRendererGui::OnMouseButtonPressedEvent(const MouseButtonPressedEvent* event)
+{
+	Layer::OnMouseButtonPressedEvent(event);
+}
+
+void RemoteRendererGui::OnMouseMovedEvent(const MouseMovedEvent* event)
+{
+	Layer::OnMouseMovedEvent(event);
+}
+
+void RemoteRendererGui::OnWindowResizedEvent(const WindowResizedEvent* event)
+{
+	Layer::OnWindowResizedEvent(event);
+}
+
+void RemoteRendererGui::OnWindowClosedEvent(const WindowClosedEvent* event)
+{
+	Layer::OnWindowClosedEvent(event);
 }

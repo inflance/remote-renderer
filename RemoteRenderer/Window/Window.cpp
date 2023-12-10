@@ -166,3 +166,8 @@ void Window::WindowScale(float& width_scale, float& height_scale) const
 {
 	glfwGetWindowContentScale(m_window, &width_scale, &height_scale);
 }
+
+void Window::GetMousePos(double& x_pos, double& y_pos)
+{
+	glfwGetCursorPos(m_window, &x_pos, &x_pos);
+}

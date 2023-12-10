@@ -63,6 +63,9 @@ void ImguiLayer::Update(float delta_time)
 	End();
 }
 
-void ImguiLayer::OnEvent(const Event* event)
+void ImguiLayer::OnWindowResizedEvent(const WindowResizedEvent* event)
 {
+	/*ImGuiIO& io = ImGui::GetIO();
+	(void)io;
+	io.DisplaySize = ImVec2(event->GetWidth(), event->GetHeight());*/
 }

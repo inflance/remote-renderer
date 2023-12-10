@@ -16,7 +16,8 @@ public:
 	static void Begin();
 	static void End();
 	void Update(float delta_time) override;
-	void OnEvent(const Event* event) override;
+	void OnWindowResizedEvent(const WindowResizedEvent* event) override;
+
 protected:
 	bool show_demo_window = true;
 };

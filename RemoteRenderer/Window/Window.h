@@ -37,6 +37,7 @@ public:
 
 	void FrameBufferSize(int& width, int& height) const;
 	void WindowScale(float& width_scale, float& height_scale) const;
+	void GetMousePos(double& x_pos, double& y_pos);
 
 	EventDispatcher& GetDispatcher() { return m_dispatcher; }
 

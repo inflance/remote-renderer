@@ -21,6 +21,17 @@ public:
 
 	[[nodiscard]] Window* GetWindow() const { return m_window.get(); }
 	void OnEvent(const Event* event);
+	void OnKeyEvent(const KeyEvent* event);
+	void OnKeyReleasedEvent(const KeyReleasedEvent* event) const;
+	void OnKeyPressedEvent(const KeyPressedEvent* event) const;
+	void OnApplicationEvent(const ApplicationEvent* event);
+	void OnAppClosedEvent(const AppLaunchedEvent* event) const;
+	void OnAppLaunchedEvent(const AppLaunchedEvent* event);
+	void OnMouseEvent(const MouseEvent* event);
+	void OnMouseScrolledEvent(const MouseScrolledEvent* event);
+	void OnMouseButtonReleasedEvent(const MouseButtonReleasedEvent* event);
+	void OnMouseButtonPressedEvent(const MouseButtonPressedEvent* event);
+	void OnMouseMovedEvent(const MouseMovedEvent* event);
 	void OnWindowEvent(const WindowEvent* event);
 	void OnWindowResizedEvent(const WindowResizedEvent* event);
 	void OnWindowClosedEvent(const WindowClosedEvent* event);
