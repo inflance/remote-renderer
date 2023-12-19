@@ -30,6 +30,8 @@ public:
 	static void PollEvents();
 
 	void Update() const;
+	bool IsMouseButtonPressed(int button) const;
+	bool IsMouseButtonReleased(int button) const;
 
 	[[nodiscard]] bool ShouldClose() const;
 

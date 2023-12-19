@@ -1,6 +1,7 @@
 ﻿#include "MousePanCameraController.h"
 
 #include <utility>
+#include <GLFW/glfw3.h>
 
 #include "InputSystem.h"
 
@@ -18,10 +19,26 @@ void MousePanCameraController::PanCamera(double delta_x, double delta_y) const
 	// 假设 delta_x 用于水平平移，delta_y 用于垂直平移
 	constexpr float pan_speed = 0.1f; // 调整平移速度
 	const glm::vec3 pan = pan_speed * (glm::vec3(delta_x) * camera_right + glm::vec3(delta_y) * camera_up);
-	const auto inf = glm::isinf(pan);
-	if (inf.x || inf.y || inf.z)
+	if (const auto inf = isinf(pan); inf.x || inf.y || inf.z)
 		return;
 	m_camera->SetPosition(m_camera->GetPosition() + pan);
+}
+
+void MousePanCameraController::ZoomCamera(double delta_x, double delta_y) const
+{
+	constexpr float zoom_speed = 0.1f; // 调整缩放速度
+	const float zoom = zoom_speed * static_cast<float>(delta_x + delta_y);
+	if (const auto inf = isinf(zoom))
+		return;
+	m_camera->SetPosition(m_camera->GetPosition() + zoom * m_camera->GetForward());
+}
+
+void MousePanCameraController::RotateCamera(double delta_x, double delta_y) const
+{
+	constexpr float rotate_speed = 0.1f; // 调整旋转速度
+	const glm::quat rotation = angleAxis(rotate_speed * static_cast<float>(delta_x), glm::vec3(0.0f, 1.0f, 0.0f))
+		* angleAxis(rotate_speed * static_cast<float>(delta_y), glm::vec3(1.0f, 0.0f, 0.0f));
+	m_camera->SetRotation(rotation + m_camera->GetRotation());
 }
 
 void MousePanCameraController::Update(float deltaTime)
@@ -35,9 +52,18 @@ void MousePanCameraController::Update(float deltaTime)
 	constexpr float sensitivity = 0.1f;
 	delta_x *= sensitivity;
 	delta_y *= sensitivity;
-
-	PanCamera(delta_x, delta_y);
-
+	if (InputSystem::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
+	{
+		RotateCamera(delta_x, delta_y);
+	}
+	if (InputSystem::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE))
+	{
+		PanCamera(delta_x, delta_y);
+	}
+	if (InputSystem::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
+	{
+		ZoomCamera(delta_x, delta_y);
+	}
 	m_last_mouse_x = x_pos;
 	m_last_mouse_y = y_pos;
 }

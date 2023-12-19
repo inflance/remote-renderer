@@ -132,7 +132,7 @@ void Window::SetEventCallback(Callback&& callback)
 	});
 }
 
-void Window::Close() 
+void Window::Close()
 {
 	GetDispatcher().EnqueueEvent(std::make_shared<WindowClosedEvent>());
 }
@@ -150,6 +150,16 @@ void Window::PollEvents()
 void Window::Update() const
 {
 	glfwSwapBuffers(m_window);
+}
+
+bool Window::IsMouseButtonPressed(int button) const
+{
+	return glfwGetMouseButton(m_window, button) == GLFW_PRESS;
+}
+
+bool Window::IsMouseButtonReleased(int button) const
+{
+	return glfwGetMouseButton(m_window, button) == GLFW_RELEASE;
 }
 
 bool Window::ShouldClose() const

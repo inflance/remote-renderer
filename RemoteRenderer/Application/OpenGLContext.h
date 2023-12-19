@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
+#include "Camera.h"
+
 struct RenderData
 {
 	glm::vec4 clear_color{};
@@ -18,8 +20,12 @@ public:
 	void Init();
 
 	void Update();
-	
+
 	void Shutdown();
+
+    void Begin(Camera* camera) const;
+
+	static void End();
 
 	void Resize(int x, int y, int width, int height);
 
@@ -27,22 +33,25 @@ public:
 
 private:
 	RenderData m_render_data{};
-    GLuint m_VAO, m_VBO, m_shaderProgram;
+	GLuint m_VAO, m_VBO, m_shaderProgram;
 
-    // Shader source code
-    const char* vertexShaderSource = R"(
+	// Shader source code
+	const char* vertexShaderSource = R"(
         #version 330 core
         layout (location = 0) in vec3 position;
         layout (location = 1) in vec3 color;
+
+		uniform mat4 view;
+
         out vec3 fragColor;
         void main()
         {
-            gl_Position = vec4(position, 1.0);
+            gl_Position = view * vec4(position, 1.0);
             fragColor = color;
         }
     )";
 
-    const char* fragmentShaderSource = R"(
+	const char* fragmentShaderSource = R"(
         #version 330 core
         in vec3 fragColor;
         out vec4 finalColor;
@@ -52,7 +61,7 @@ private:
         }
     )";
 
-    GLuint CompileShader(GLenum shaderType, const char* source);
+	GLuint CompileShader(GLenum shaderType, const char* source);
 
 	GLuint LinkShaders(GLuint vertexShader, GLuint fragmentShader);
 };

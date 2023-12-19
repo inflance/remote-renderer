@@ -7,6 +7,8 @@ class MousePanCameraController : public CameraController
 public:
 	explicit MousePanCameraController(std::shared_ptr<Camera> camera);
 	void PanCamera(double delta_x, double delta_y) const;
+	void ZoomCamera(double delta_x, double delta_y) const;
+	void RotateCamera(double delta_x, double delta_y) const;
     void Update(float deltaTime) override;
 
 private:

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Log.h"
 
@@ -23,8 +24,8 @@ void OpenGLContext::Init()
 	Resize(m_render_data.x, m_render_data.y, m_render_data.width, m_render_data.height);
 
 	// Create and compile shaders
-	GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
-	GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
+	const GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, vertexShaderSource);
+	const GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
 	// Link shaders into a program
 	m_shaderProgram = LinkShaders(vertexShader, fragmentShader);
@@ -33,7 +34,7 @@ void OpenGLContext::Init()
 	GLfloat vertices[] = {
 		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Vertex 1: Position (-0.5, -0.5), Color (Red)
 		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // Vertex 2: Position (0.5, -0.5), Color (Green)
-		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f   // Vertex 3: Position (0.0, 0.5), Color (Blue)
+		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f // Vertex 3: Position (0.0, 0.5), Color (Blue)
 	};
 
 	// Generate and bind a vertex array object (VAO)
@@ -48,7 +49,7 @@ void OpenGLContext::Init()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Set the vertex attribute pointers
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), static_cast<GLvoid*>(nullptr));
 	glEnableVertexAttribArray(0);
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
@@ -62,18 +63,10 @@ void OpenGLContext::Init()
 void OpenGLContext::Update()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
-
-	// Use the shader program
 	glUseProgram(m_shaderProgram);
-
-	// Bind the VAO
 	glBindVertexArray(m_VAO);
-
-	// Draw the triangle
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	// Unbind the VAO
-	glBindVertexArray(0);
+	End();
 }
 
 void OpenGLContext::Shutdown()
@@ -81,6 +74,19 @@ void OpenGLContext::Shutdown()
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
 	glDeleteProgram(m_shaderProgram);
+}
+
+void OpenGLContext::Begin(Camera* camera) const
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(m_shaderProgram);
+	glBindVertexArray(m_VAO);
+	glUniformMatrix4fv(glGetUniformLocation(m_shaderProgram, "view"), 1, GL_FALSE, value_ptr(camera->getViewMatrix()));
+}
+
+void OpenGLContext::End()
+{
+	glBindVertexArray(0);
 }
 
 void OpenGLContext::Resize(int x, int y, int width, int height)
@@ -102,7 +108,7 @@ void OpenGLContext::SetClearColor(const glm::vec4& clear_color)
 GLuint OpenGLContext::CompileShader(GLenum shaderType, const char* source)
 {
 	GLuint shader = glCreateShader(shaderType);
-	glShaderSource(shader, 1, &source, NULL);
+	glShaderSource(shader, 1, &source, nullptr);
 	glCompileShader(shader);
 
 	// Check for compilation errors
@@ -111,7 +117,7 @@ GLuint OpenGLContext::CompileShader(GLenum shaderType, const char* source)
 	if (!success)
 	{
 		char infoLog[512];
-		glGetShaderInfoLog(shader, 512, NULL, infoLog);
+		glGetShaderInfoLog(shader, 512, nullptr, infoLog);
 		std::cerr << "Shader compilation error:\n" << infoLog << std::endl;
 		glDeleteShader(shader);
 		return 0;
@@ -133,7 +139,7 @@ GLuint OpenGLContext::LinkShaders(GLuint vertexShader, GLuint fragmentShader)
 	if (!success)
 	{
 		char infoLog[512];
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
 		std::cerr << "Shader program linking error:\n" << infoLog << std::endl;
 		glDeleteProgram(shaderProgram);
 		return 0;

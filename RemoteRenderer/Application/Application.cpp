@@ -19,7 +19,7 @@ void Application::Init()
 
 void Application::Shutdown()
 {
-	m_window->GetDispatcher().EnqueueEvent(std::make_shared<AppClosedEvent>());
+	//m_window->GetDispatcher().EnqueueEvent(std::make_shared<AppClosedEvent>());
 	for (Layer* layer : m_layer_stack)
 	{
 		layer->Shutdown();
@@ -48,7 +48,6 @@ void Application::Run()
 		const float delta_time = duration.count() / 1000.0f; // Convert to seconds
 
 		m_last_frame_time = current_frame_time;
-
 		m_gl_context->Update();
 
 		for (Layer* layer : m_layer_stack)

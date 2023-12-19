@@ -50,7 +50,7 @@ private:
 	std::vector<EventCallback> m_event_callbacks;
 	std::queue<std::shared_ptr<Event>> m_event_queue;
 
-	void DispatchEvent(const Event* event)
+	void DispatchEvent(const Event* event) const
 	{
 		for (auto& callback : m_event_callbacks)
 		{

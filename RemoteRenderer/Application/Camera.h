@@ -33,6 +33,7 @@ public:
 	                                    float far_clip);
 	[[nodiscard]] const glm::vec3& GetPosition() const { return m_position; }
 	[[nodiscard]] glm::vec3 GetForward() const;
+	[[nodiscard]] glm::quat GetRotation() const { return m_rotation; }
 
 	static std::shared_ptr<Camera> CreateByPerspective(float fov, float aspect_ratio, float near_clip, float far_clip);
 	static std::shared_ptr<Camera> CreateByOrthographic(float left, float right, float bottom, float top,
